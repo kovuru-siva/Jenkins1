@@ -23,3 +23,5 @@ resource "aws_key_pair" "webkey" {
     public_key = file(var.public-key)
   
 }
+
+

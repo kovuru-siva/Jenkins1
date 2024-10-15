@@ -17,7 +17,7 @@ resource "aws_vpc" "levelup_vpc" {
 resource "aws_subnet" "public" {
     vpc_id = aws_vpc.levelup_vpc.id
     cidr_block = var.public_subnet
-    availability_zone = data.aws_availability_zones.myaz.name[0]
+    availability_zone = data.aws_availability_zones.myaz.names[0]
     map_public_ip_on_launch = "true"
 
     tags = {
@@ -29,7 +29,7 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
     vpc_id = aws_vpc.levelup_vpc.id
     cidr_block = var.private_subnet
-    availability_zone = data.aws_availability_zones.myaz.name[1]
+    availability_zone = data.aws_availability_zones.myaz.names[1]
 
     tags = {
       Name = "${var.env}-private_subnet"

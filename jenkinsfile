@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    // parameters {
+    //     choice(name: 'ENVIRONMENT', choices: ['blue', 'green'], description: 'Select the environment to deploy to')
+    // }
+
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['blue', 'green'], description: 'Select the environment to deploy to')
+        string(name: 'BLUE_IMAGE_VERSION', defaultValue: 'anvesh35/echo-pod-name:v1.0.0', description: 'Docker image version for Blue environment')
+        string(name: 'GREEN_IMAGE_VERSION', defaultValue: 'anvesh35/echo-pod-name:v2.0.0', description: 'Docker image version for Green environment')
+    }
+    stages {
+        stage ('Testing the k8 access') {
+            steps {
+               withCredentials([file(credentialsId: 'kubeconfig', variable: 'kubeconfig')]) {
+                 sh 'kubectl get po'
+                } 
+            }
+        }
+        
+        stage ('deploying the blue-green env') {
+           steps {
+               script {
+                   def nextEnv = params.ENVIRONMENT == 'blue' ?'green' : 'blue'
+                   
+                   sh """
+                   kubectl set image deployment/blue-deploy echoapp=anvesh35/echo-pod-name:v2.0.0
+                   """
+               }
+           }
+        }
+    }
+}

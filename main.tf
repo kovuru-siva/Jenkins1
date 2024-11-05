@@ -9,7 +9,7 @@ module "vpc" {
 }
 
 
-resource "aws_instance" "web" {
+resource "aws_instance" "Terraform" {
   ami             = var.instance_ami
   instance_type   = lookup(var.instance-type, "ap-south-1", "t2.medium")
   subnet_id       = module.vpc.publicsubnet

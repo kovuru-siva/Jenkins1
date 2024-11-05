@@ -6,7 +6,7 @@ variable "instance_ami" {
 variable "instance-type" {
   type = map(string)
   default = {
-    "ap-south-1" = "t2-medium"
+    "ap-south-1" = "t2.medium"
   }
 
 }
